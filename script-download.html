@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script Download</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0a0218;
+            color: #c084fc;
+            font-family: 'Rajdhani', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .content-box {
+            background: rgba(60, 10, 90, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(128, 0, 255, 0.9);
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+        }
+        .script-box {
+            background: #1a012a;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            text-align: left;
+            overflow-x: auto;
+            max-width: 100%;
+            white-space: nowrap;
+            color: #00ff00;
+            border: 1px solid #9d4edd;
+            margin-top: 10px;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #7e22ce, #9d4edd);
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 15px rgba(128, 0, 255, 0.8);
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            display: block;
+            margin: 20px auto;
+            text-align: center;
+            max-width: 250px;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="content-box">
+            <h2 class="text-4xl font-bold text-purple-300">Script Ready for Use</h2>
+            <p class="text-lg text-purple-400 mt-4">Works with <strong>ALL executors</strong>, e.g. <span style="color: #00ff00;">Xeno, AWP.GG</span></p>
+
+            <div class="script-box" id="script-text">
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/flanchhh/AntiV2/refs/heads/main/Anti%20v2.lua"))();
+            </div>
+
+            <button class="btn-primary" onclick="copyScript()">📋 Copy Script</button>
+        </div>
+    </main>
+
+    <script>
+        function copyScript() {
+            const scriptText = document.getElementById("script-text").innerText;
+            navigator.clipboard.writeText(scriptText).then(() => {
+                alert("✅ Script copied to clipboard!");
+            }).catch(err => {
+                console.error("Failed to copy script: ", err);
+            });
+        }
+    </script>
+</body>
+</html>
