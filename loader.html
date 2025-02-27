@@ -15,43 +15,148 @@
             align-items: center;
             height: 100vh;
             text-align: center;
+            flex-direction: column;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+            100% { opacity: 0.5; transform: scale(1); }
+        }
+        .content-box {
+            background: rgba(60, 10, 90, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(128, 0, 255, 0.9);
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        .hidden { display: none; }
+        .btn-primary {
+            background: linear-gradient(90deg, #00ff00, #4dff4d);
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            display: block;
+            margin: 20px auto;
+            text-align: center;
+            max-width: 250px;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            transform: scale(1.07);
+            box-shadow: 0 0 25px rgba(0, 255, 0, 1);
+        }
+        .script-box {
+            background: #1a012a;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            text-align: left;
+            overflow-x: auto;
+            max-width: 600px;
+            white-space: nowrap;
+            color: #00ff00;
+            border: 1px solid #9d4edd;
+            margin-top: 10px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        .loading-animation {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #c084fc;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-top: 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
     <main>
-        <div class="content-box">
-            <h2 class="text-4xl font-bold text-purple-300">Script Loader</h2>
-            <p id="status" class="text-lg text-purple-400 mt-4">Verifying payment...</p>
+        <!-- Payment Verification -->
+        <div class="content-box" id="verifying-payment">
+            <h2 class="text-4xl font-bold text-purple-300">🔄 Verifying Payment...</h2>
+            <p id="status" class="text-lg text-purple-400 mt-4">Please wait while we confirm your payment.</p>
+            <div class="loading-animation"></div>
+        </div>
+
+        <!-- Payment Failed -->
+        <div class="content-box hidden" id="payment-failed">
+            <h2 class="text-5xl font-bold text-red-400">⚠️ Payment Failed</h2>
+            <p class="text-lg text-red-300 mt-4">It looks like your payment did not go through.</p>
+            <p class="text-md text-red-300 mt-2">Try a different payment option if the first one did not work.</p>
+            <a href="https://auxils-lair.vercel.app/payment.html" class="btn-primary">🔄 Try Again</a>
+        </div>
+
+        <!-- Payment Successful - Script Download -->
+        <div class="content-box hidden" id="script-download">
+            <h2 class="text-4xl font-bold text-purple-300">✅ Payment Successful</h2>
+            <p class="text-lg text-purple-400 mt-4">Your payment has been confirmed. You can now access your script.</p>
+            <p class="text-md text-green-300 mt-2">Works with <strong>ALL executors</strong>, e.g. <span style="color: #00ff00;">Xeno, AWP.GG</span></p>
+            <div class="script-box" id="script-text">
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/flanchhh/AntiV2/refs/heads/main/Anti%20v2.lua"))();
+            </div>
+            <button class="btn-primary" onclick="copyScript()">📋 Copy Script</button>
         </div>
     </main>
 
     <script>
+        function showScript() {
+            document.getElementById("verifying-payment").style.display = "none";
+            document.getElementById("script-download").classList.remove("hidden");
+        }
+
+        function showPaymentFailed() {
+            document.getElementById("verifying-payment").style.display = "none";
+            document.getElementById("payment-failed").classList.remove("hidden");
+        }
+
+        function copyScript() {
+            const scriptText = document.getElementById("script-text").innerText;
+            navigator.clipboard.writeText(scriptText).then(() => {
+                alert("✅ Script copied to clipboard!");
+            }).catch(err => {
+                console.error("Failed to copy script: ", err);
+            });
+        }
+
         // Get orderID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const orderID = urlParams.get("orderID");
 
         if (!orderID) {
-            redirectToFailedPage();
+            setTimeout(showPaymentFailed, 3000);
         } else {
             setTimeout(() => {
                 fetch(`https://auxils-lair.vercel.app/check-payment?orderID=${orderID}`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            window.location.href = "payment-success.html"; // Redirect to success page
+                            showScript();
                         } else {
-                            redirectToFailedPage(); // Redirect to failed page
+                            showPaymentFailed();
                         }
                     })
                     .catch(() => {
-                        redirectToFailedPage();
+                        showPaymentFailed();
                     });
             }, 3000);
-        }
-
-        function redirectToFailedPage() {
-            window.location.href = "payment-failed.html";
         }
     </script>
 </body>
