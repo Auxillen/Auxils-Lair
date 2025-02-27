@@ -41,6 +41,8 @@ function Store() {
   const handleCheckout = async () => {
     try {
       const stripe = await stripePromise;
+      if (!stripe) throw new Error("Stripe failed to load");
+
       const response = await fetch("/api/create-checkout-session", { 
         method: "POST",
         headers: { "Content-Type": "application/json" }
@@ -49,7 +51,12 @@ function Store() {
       if (!response.ok) throw new Error("Failed to create Stripe session");
 
       const session = await response.json();
-      await stripe.redirectToCheckout({ sessionId: session.id });
+      const result = await stripe.redirectToCheckout({ sessionId: session.id });
+
+      if (result.error) {
+        console.error("Stripe redirect error:", result.error);
+        alert("Error redirecting to checkout. Please try again.");
+      }
 
     } catch (error) {
       console.error("Checkout error:", error.message);
@@ -73,23 +80,4 @@ function Store() {
           </p>
           <Button 
             onClick={handleCheckout} 
-            className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl focus:ring-2 focus:ring-green-300"
-          >
-            Buy Now
-          </Button>
-        </CardContent>
-      </Card>
-    </div>
-  );
-}
-
-export default function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/store" element={<Store />} />
-      </Routes>
-    </Router>
-  );
-}
+            className="bg-gr
