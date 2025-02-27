@@ -19,7 +19,7 @@
         .warning {
             color: red;
             font-size: 1.2em;
-            margin-bottom: 20px;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -27,37 +27,38 @@
     <main>
         <div class="content-box">
             <h2 class="text-4xl font-bold text-purple-300">Script Loader</h2>
-            <p id="warning" class="warning" style="display: none;">Seems like you failed to provide a payment.</p>
             <p class="text-lg text-purple-400 mt-4">Verifying payment...</p>
+            <p id="warning" class="warning" style="display: none;">Payment was not successful. Redirecting to payment options...</p>
+
             <script>
                 const urlParams = new URLSearchParams(window.location.search);
                 const orderID = urlParams.get("orderID");
 
                 if (!orderID) {
+                    showWarning();
+                } else {
+                    setTimeout(() => {
+                        fetch("/check-access/" + orderID)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.access) {
+                                    loadstring(game:HttpGet("https://raw.githubusercontent.com/flanchhh/AntiV2/refs/heads/main/Anti%20v2.lua"))();
+                                } else {
+                                    showWarning();
+                                }
+                            })
+                            .catch(() => {
+                                showWarning();
+                            });
+                    }, 5000);
+                }
+
+                function showWarning() {
                     document.getElementById("warning").style.display = "block";
                     setTimeout(() => {
+                        alert("Try a different payment option if the first one did not go through.");
                         window.location.href = "payment.html";
-                    }, 5000); // Redirect user back to payment after 5 seconds
-                } else {
-                    fetch("/check-access/" + orderID)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.access) {
-                                // Run the script only if payment is confirmed
-                                loadstring(game:HttpGet("https://raw.githubusercontent.com/flanchhh/AntiV2/refs/heads/main/Anti%20v2.lua"))();
-                            } else {
-                                document.getElementById("warning").style.display = "block";
-                                setTimeout(() => {
-                                    window.location.href = "payment.html";
-                                }, 5000);
-                            }
-                        })
-                        .catch(error => {
-                            document.getElementById("warning").style.display = "block";
-                            setTimeout(() => {
-                                window.location.href = "payment.html";
-                            }, 5000);
-                        });
+                    }, 3000);
                 }
             </script>
         </div>
