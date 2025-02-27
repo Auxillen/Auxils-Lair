@@ -24,11 +24,34 @@
             transform: scale(1.05);
         }
         .animate-fade {
-            animation: fadeIn 1s ease-in-out;
+            animation: fadeIn 2s ease-in-out;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+        .content-box {
+            background: rgba(60, 10, 90, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(128, 0, 128, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        .laser-effect {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(128,0,255,0.5) 10%, rgba(10,2,24,0) 60%);
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            animation: pulseGlow 5s infinite alternate ease-in-out;
+        }
+        @keyframes pulseGlow {
+            from { opacity: 0.4; transform: scale(1); }
+            to { opacity: 0.7; transform: scale(1.1); }
         }
     </style>
 </head>
@@ -46,11 +69,14 @@
     </header>
 
     <main class="flex flex-col items-center justify-center text-center mt-20 px-6 animate-fade">
-        <h2 class="text-5xl font-bold text-purple-300">Welcome to Auxil's Lair</h2>
-        <p class="text-lg text-purple-400 mt-4 max-w-2xl">
-            Your ultimate gaming community. Connect, compete, and shop exclusive merchandise.
-        </p>
-        <a href="#" class="btn-primary text-white px-6 py-3 rounded-lg mt-6 inline-block shadow-lg">Explore the Store</a>
+        <div class="content-box">
+            <div class="laser-effect"></div>
+            <h2 class="text-5xl font-bold text-purple-300 animate-fade">Welcome to Auxil's Lair</h2>
+            <p class="text-lg text-purple-400 mt-4 max-w-2xl animate-fade" style="animation-delay: 1s;">
+                Your ultimate gaming community. Connect, compete, and shop exclusive merchandise.
+            </p>
+            <a href="#" class="btn-primary text-white px-6 py-3 rounded-lg mt-6 inline-block shadow-lg animate-fade" style="animation-delay: 2s;">Explore the Store</a>
+        </div>
     </main>
 </body>
 </html>
