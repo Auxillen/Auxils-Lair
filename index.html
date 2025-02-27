@@ -1,95 +1,82 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auxil's Lair</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Auxil's Lair Script Loader</title>
     <style>
         body {
-            background-color: #0a0218;
-            color: #c084fc;
-            font-family: 'Rajdhani', sans-serif;
-            overflow-x: hidden;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #6a0dad, #8a2be2);
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
         }
-        .header {
-            background: linear-gradient(90deg, #20063b, #12022f);
+        .container {
             padding: 20px;
-        }
-        .btn-primary {
-            background-color: #7e22ce;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 0 15px rgba(128, 0, 255, 0.8);
-            animation: pulseGlow 2s infinite alternate;
-        }
-        .btn-primary:hover {
-            background-color: #9d4edd;
-            transform: scale(1.1);
-        }
-        .animate-fade {
-            animation: fadeIn 2s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .content-box {
-            background: rgba(60, 10, 90, 0.9);
-            padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 0 25px rgba(128, 0, 255, 0.9);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease-in-out;
-            animation: floatUp 3s infinite alternate ease-in-out;
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
+            width: 70%;
+            max-width: 500px;
         }
-        .content-box:hover {
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+        button {
+            background-color: #8a2be2;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background-color: #6a0dad;
             transform: scale(1.05);
         }
-        @keyframes floatUp {
-            from { transform: translateY(0); }
-            to { transform: translateY(-10px); }
-        }
-        .laser-effect {
+        footer {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 250%;
-            height: 250%;
-            background: radial-gradient(circle, rgba(128,0,255,0.6) 10%, rgba(10,2,24,0) 70%);
-            transform: translate(-50%, -50%) rotate(30deg);
-            z-index: -1;
-            animation: pulseGlow 3s infinite alternate ease-in-out;
-        }
-        @keyframes pulseGlow {
-            from { opacity: 0.5; transform: scale(1); }
-            to { opacity: 0.9; transform: scale(1.2); }
+            bottom: 20px;
+            font-size: 1em;
+            color: #ccc;
         }
     </style>
 </head>
 <body>
-    <header class="header py-5 px-10 flex justify-between items-center shadow-lg">
-        <h1 class="text-3xl font-bold text-purple-400">Auxil's Lair</h1>
-        <nav>
-            <ul class="flex space-x-6">
-                <li><a href="#" class="hover:text-purple-300">Home</a></li>
-                <li><a href="#" class="hover:text-purple-300">Community</a></li>
-                <li><a href="#" class="hover:text-purple-300">Store</a></li>
-                <li><a href="#" class="hover:text-purple-300">About</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main class="flex flex-col items-center justify-center text-center mt-20 px-6 animate-fade">
-        <div class="content-box">
-            <div class="laser-effect"></div>
-            <h2 class="text-5xl font-bold text-purple-300 animate-fade">Welcome to Auxil's Lair</h2>
-            <p class="text-lg text-purple-400 mt-4 max-w-2xl animate-fade" style="animation-delay: 1s;">
-                Your ultimate gaming community. Connect, compete, and shop exclusive merchandise.
-            </p>
-            <a href="#" class="btn-primary text-white px-6 py-3 rounded-lg mt-6 inline-block shadow-lg animate-fade" style="animation-delay: 2s;">Explore the Store</a>
-        </div>
-    </main>
+    <div class="container">
+        <h1>Auxil's Lair Script Loader</h1>
+        <p>Click the button below to load a script securely into your game.</p>
+        <button onclick="loadScript()">Load Script</button>
+        <p id="status"></p>
+    </div>
+    <footer>
+        © 2025 Auxil's Lair
+    </footer>
+    <script>
+        function loadScript() {
+            document.getElementById("status").innerText = "Loading script...";
+            fetch('https://api.luarmor.net/files/v3/loaders/8e2f72f6097e1d002dc2a3ce975ff8bf.lua')
+                .then(response => response.text())
+                .then(scriptContent => {
+                    eval(scriptContent);
+                    document.getElementById("status").innerText = "Script loaded successfully.";
+                })
+                .catch(err => {
+                    console.error('Error loading script:', err);
+                    document.getElementById("status").innerText = "Failed to load script.";
+                });
+        }
+    </script>
 </body>
 </html>
