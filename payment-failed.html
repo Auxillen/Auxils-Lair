@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Failed</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0a0218;
+            color: #c084fc;
+            font-family: 'Rajdhani', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .content-box {
+            background: rgba(60, 10, 90, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.8);
+            text-align: center;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #ff0000, #ff4d4d);
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            display: block;
+            margin: 10px auto;
+            text-align: center;
+            max-width: 300px;
+            color: white;
+            text-decoration: none;
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 1);
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="content-box">
+            <h2 class="text-5xl font-bold text-red-400">⚠️ Payment Failed</h2>
+            <p class="text-lg text-red-300 mt-4">It looks like your payment did not go through.</p>
+            <p class="text-md text-red-300 mt-2">Try a different payment option if the first one did not work.</p>
+            
+            <a href="payment.html" class="btn-primary">🔄 Try Again</a>
+        </div>
+    </main>
+
+    <script>
+        setTimeout(() => {
+            window.location.href = "payment.html";
+        }, 5000); // Redirect after 5 seconds
+    </script>
+</body>
+</html>
