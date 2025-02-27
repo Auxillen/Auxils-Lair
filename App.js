@@ -13,7 +13,8 @@ function Home() {
       <motion.h1 
         className="text-4xl font-bold mb-6" 
         initial={{ opacity: 0, y: -20 }} 
-        animate={{ opacity: 1, y: 0 }}>
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}>
         Welcome to Our Gaming Community
       </motion.h1>
       
@@ -22,10 +23,14 @@ function Home() {
           <p className="text-lg text-gray-300 mb-4 text-center">
             Join a community of gamers, analyze your gameplay, and connect with other players!
           </p>
-          <Button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl">
+          <Button 
+            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl focus:ring-2 focus:ring-blue-300"
+          >
             Get Started
           </Button>
-          <Link to="/store" className="mt-4 text-blue-400 hover:underline">Visit Our Store</Link>
+          <Link to="/store" className="mt-4 text-blue-400 hover:underline">
+            Visit Our Store
+          </Link>
         </CardContent>
       </Card>
     </div>
@@ -34,10 +39,22 @@ function Home() {
 
 function Store() {
   const handleCheckout = async () => {
-    const stripe = await stripePromise;
-    const response = await fetch("/create-checkout-session", { method: "POST" });
-    const session = await response.json();
-    await stripe.redirectToCheckout({ sessionId: session.id });
+    try {
+      const stripe = await stripePromise;
+      const response = await fetch("/api/create-checkout-session", { 
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
+      });
+
+      if (!response.ok) throw new Error("Failed to create Stripe session");
+
+      const session = await response.json();
+      await stripe.redirectToCheckout({ sessionId: session.id });
+
+    } catch (error) {
+      console.error("Checkout error:", error.message);
+      alert("Error processing checkout. Please try again.");
+    }
   };
 
   return (
@@ -45,7 +62,8 @@ function Store() {
       <motion.h1 
         className="text-4xl font-bold mb-6" 
         initial={{ opacity: 0, y: -20 }} 
-        animate={{ opacity: 1, y: 0 }}>
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}>
         Store
       </motion.h1>
       <Card className="w-full max-w-md bg-gray-800 rounded-2xl shadow-xl">
@@ -53,7 +71,10 @@ function Store() {
           <p className="text-lg text-gray-300 mb-4 text-center">
             Exclusive gaming merchandise available now!
           </p>
-          <Button onClick={handleCheckout} className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl">
+          <Button 
+            onClick={handleCheckout} 
+            className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl focus:ring-2 focus:ring-green-300"
+          >
             Buy Now
           </Button>
         </CardContent>
