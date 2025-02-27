@@ -16,11 +16,6 @@
             height: 100vh;
             text-align: center;
         }
-        .success {
-            color: green;
-            font-size: 1.2em;
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
@@ -28,41 +23,36 @@
         <div class="content-box">
             <h2 class="text-4xl font-bold text-purple-300">Script Loader</h2>
             <p id="status" class="text-lg text-purple-400 mt-4">Verifying payment...</p>
-            <p id="success" class="success" style="display: none;">✅ Payment Verified! Script is loading...</p>
-
-            <script>
-                const urlParams = new URLSearchParams(window.location.search);
-                const orderID = urlParams.get("orderID");
-
-                if (!orderID) {
-                    redirectToFailedPage();
-                } else {
-                    setTimeout(() => {
-                        fetch("/check-access/" + orderID)
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.access) {
-                                    document.getElementById("status").style.display = "none";
-                                    document.getElementById("success").style.display = "block";
-
-                                    setTimeout(() => {
-                                        loadstring(game:HttpGet("https://raw.githubusercontent.com/flanchhh/AntiV2/refs/heads/main/Anti%20v2.lua"))();
-                                    }, 2000);
-                                } else {
-                                    redirectToFailedPage();
-                                }
-                            })
-                            .catch(() => {
-                                redirectToFailedPage();
-                            });
-                    }, 3000);
-                }
-
-                function redirectToFailedPage() {
-                    window.location.href = "payment-failed.html";
-                }
-            </script>
         </div>
     </main>
+
+    <script>
+        // Get orderID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderID = urlParams.get("orderID");
+
+        if (!orderID) {
+            redirectToFailedPage();
+        } else {
+            setTimeout(() => {
+                fetch(`https://auxils-lair.vercel.app/check-payment?orderID=${orderID}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.href = "payment-success.html"; // Redirect to success page
+                        } else {
+                            redirectToFailedPage(); // Redirect to failed page
+                        }
+                    })
+                    .catch(() => {
+                        redirectToFailedPage();
+                    });
+            }, 3000);
+        }
+
+        function redirectToFailedPage() {
+            window.location.href = "payment-failed.html";
+        }
+    </script>
 </body>
 </html>
