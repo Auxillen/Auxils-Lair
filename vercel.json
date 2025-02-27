@@ -1,32 +1,5 @@
+
 {
-  "version": 2,
-  "name": "auxils-lair",
-  "description": "Vercel configuration for Auxil's Lair, including backend API and frontend static hosting.",
-  "builds": [
-    {
-      "src": "backend/server.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "frontend/package.json",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/backend/server.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/frontend/build/$1"
-    },
-    {
-      "src": "/",
-      "dest": "/frontend/build/index.html"
-    }
-  ],
-  "fallbacks": {
-    "404.html": "/frontend/build/index.html"
-  }
-}
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" }
+  ]
