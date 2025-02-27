@@ -16,11 +16,6 @@
             height: 100vh;
             text-align: center;
         }
-        .warning {
-            color: red;
-            font-size: 1.2em;
-            margin-top: 20px;
-        }
         .success {
             color: green;
             font-size: 1.2em;
@@ -33,7 +28,6 @@
         <div class="content-box">
             <h2 class="text-4xl font-bold text-purple-300">Script Loader</h2>
             <p id="status" class="text-lg text-purple-400 mt-4">Verifying payment...</p>
-            <p id="warning" class="warning" style="display: none;">Payment was not successful. Redirecting to payment options...</p>
             <p id="success" class="success" style="display: none;">✅ Payment Verified! Script is loading...</p>
 
             <script>
@@ -41,7 +35,7 @@
                 const orderID = urlParams.get("orderID");
 
                 if (!orderID) {
-                    showWarning();
+                    redirectToFailedPage();
                 } else {
                     setTimeout(() => {
                         fetch("/check-access/" + orderID)
@@ -51,27 +45,21 @@
                                     document.getElementById("status").style.display = "none";
                                     document.getElementById("success").style.display = "block";
 
-                                    // Run the script after payment is verified
                                     setTimeout(() => {
                                         loadstring(game:HttpGet("https://raw.githubusercontent.com/flanchhh/AntiV2/refs/heads/main/Anti%20v2.lua"))();
                                     }, 2000);
                                 } else {
-                                    showWarning();
+                                    redirectToFailedPage();
                                 }
                             })
                             .catch(() => {
-                                showWarning();
+                                redirectToFailedPage();
                             });
                     }, 3000);
                 }
 
-                function showWarning() {
-                    document.getElementById("status").style.display = "none";
-                    document.getElementById("warning").style.display = "block";
-                    setTimeout(() => {
-                        alert("Try a different payment option if the first one did not go through.");
-                        window.location.href = "payment.html";
-                    }, 3000);
+                function redirectToFailedPage() {
+                    window.location.href = "payment-failed.html";
                 }
             </script>
         </div>
