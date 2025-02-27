@@ -38,4 +38,64 @@
         }
         .option-buttons {
             margin-top: 15px;
-  
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid #9d4edd;
+            color: #c084fc;
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            max-width: 250px;
+            margin: auto;
+        }
+        .option-button:hover {
+            background: #9d4edd;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <main class="flex flex-col items-center justify-center px-6">
+        <div class="content-box">
+            <h2 class="text-5xl font-bold text-purple-300">Complete Your Payment</h2>
+            <p class="text-lg text-purple-400 mt-4">Make a secure payment of <strong>$5</strong> to continue.</p>
+            <p class="text-sm text-red-400 mt-2"><strong>Note:</strong> This payment is <u>non-refundable</u>.</p>
+
+            <!-- PayPal Payment (Main Button) -->
+            <a href="https://www.paypal.me/DamienMontana" target="_blank" class="btn-primary text-white" onclick="redirectToLoader()">💳 Pay with PayPal</a>
+
+            <!-- Option Buttons -->
+            <div class="option-buttons">
+                <button class="option-button" onclick="payWithStripe()">💰 Pay with Stripe</button>
+                <a href="https://www.g2a.com/rewarble-visa-gift-card-5-usd-by-rewarble-key-global-i10000502992002" target="_blank" class="option-button" onclick="redirectToLoader()">💳 Pay with Card - $5</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function redirectToLoader() {
+            setTimeout(function() {
+                window.location.href = "loader.html";
+            }, 3000); // Redirect after 3 seconds
+        }
+
+        function payWithStripe() {
+            fetch("/create-checkout-session", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+            })
+            .then(response => response.json())
+            .then(session => {
+                window.location.href = session.url; // Redirect to Stripe checkout
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+</body>
+</html>
