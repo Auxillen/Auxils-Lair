@@ -58,6 +58,11 @@
             background: #9d4edd;
             color: white;
         }
+        .instructions {
+            font-size: 14px;
+            color: #ff7675;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -72,7 +77,7 @@
 
             <!-- Option Buttons -->
             <div class="option-buttons">
-                <button class="option-button" onclick="payWithStripe()">💰 Pay with Stripe</button>
+                <p class="instructions"><strong>For card payments:</strong> Add <u>auxillen18@gmail.com</u> as your email to confirm the payment.</p>
                 <a href="https://www.g2a.com/rewarble-visa-gift-card-5-usd-by-rewarble-key-global-i10000502992002" target="_blank" class="option-button" onclick="redirectToLoader()">💳 Pay with Card - $5</a>
             </div>
         </div>
@@ -83,18 +88,6 @@
             setTimeout(function() {
                 window.location.href = "loader.html";
             }, 3000); // Redirect after 3 seconds
-        }
-
-        function payWithStripe() {
-            fetch("/create-checkout-session", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-            })
-            .then(response => response.json())
-            .then(session => {
-                window.location.href = session.url; // Redirect to Stripe checkout
-            })
-            .catch(error => console.error("Error:", error));
         }
     </script>
 </body>
