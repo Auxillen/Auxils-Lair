@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auxil's Lair</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0a0218;
+            color: #c084fc;
+            font-family: 'Rajdhani', sans-serif;
+        }
+        .header {
+            background-color: #12022f;
+        }
+        .btn-primary {
+            background-color: #7e22ce;
+            transition: all 0.3s ease-in-out;
+        }
+        .btn-primary:hover {
+            background-color: #9d4edd;
+            transform: scale(1.05);
+        }
+        .animate-fade {
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <header class="header py-5 px-10 flex justify-between items-center shadow-lg">
+        <h1 class="text-3xl font-bold text-purple-400">Auxil's Lair</h1>
+        <nav>
+            <ul class="flex space-x-6">
+                <li><a href="#" class="hover:text-purple-300">Home</a></li>
+                <li><a href="#" class="hover:text-purple-300">Community</a></li>
+                <li><a href="#" class="hover:text-purple-300">Store</a></li>
+                <li><a href="#" class="hover:text-purple-300">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="flex flex-col items-center justify-center text-center mt-20 px-6 animate-fade">
+        <h2 class="text-5xl font-bold text-purple-300">Welcome to Auxil's Lair</h2>
+        <p class="text-lg text-purple-400 mt-4 max-w-2xl">
+            Your ultimate gaming community. Connect, compete, and shop exclusive merchandise.
+        </p>
+        <a href="#" class="btn-primary text-white px-6 py-3 rounded-lg mt-6 inline-block shadow-lg">Explore the Store</a>
+    </main>
+</body>
+</html>
