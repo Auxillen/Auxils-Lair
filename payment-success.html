@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Confirmed</title>
+    <title>Payment Successful - Script Download</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -15,6 +15,7 @@
             align-items: center;
             height: 100vh;
             text-align: center;
+            flex-direction: column;
         }
         .content-box {
             background: rgba(10, 90, 30, 0.9);
@@ -22,7 +23,9 @@
             border-radius: 15px;
             box-shadow: 0 0 25px rgba(0, 255, 0, 0.8);
             text-align: center;
+            margin-bottom: 20px;
         }
+        .hidden { display: none; }
         .btn-primary {
             background: linear-gradient(90deg, #00ff00, #4dff4d);
             transition: all 0.3s ease-in-out;
@@ -32,33 +35,67 @@
             font-size: 18px;
             font-weight: bold;
             display: block;
-            margin: 10px auto;
+            margin: 20px auto;
             text-align: center;
-            max-width: 300px;
+            max-width: 250px;
             color: white;
             text-decoration: none;
+            cursor: pointer;
         }
         .btn-primary:hover {
             transform: scale(1.05);
             box-shadow: 0 0 20px rgba(0, 255, 0, 1);
         }
+        .script-box {
+            background: #1a012a;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            text-align: left;
+            overflow-x: auto;
+            max-width: 600px;
+            white-space: nowrap;
+            color: #00ff00;
+            border: 1px solid #9d4edd;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
     <main>
-        <div class="content-box">
+        <div class="content-box" id="payment-confirmation">
             <h2 class="text-5xl font-bold text-green-400">✅ Payment Confirmed!</h2>
             <p class="text-lg text-green-300 mt-4">Your payment has been successfully processed.</p>
-            <p class="text-md text-green-300 mt-2">You will be redirected to the script loader shortly.</p>
-            
-            <a href="loader.html" class="btn-primary">➡️ Continue to Script Loader</a>
+            <p class="text-md text-green-300 mt-2">You will be redirected to the script download shortly.</p>
+            <button class="btn-primary" onclick="showScript()">➡️ Go to Script Download</button>
+        </div>
+
+        <div class="content-box hidden" id="script-download">
+            <h2 class="text-4xl font-bold text-purple-300">Script Ready for Use</h2>
+            <p class="text-lg text-purple-400 mt-4">Works with <strong>ALL executors</strong>, e.g. <span style="color: #00ff00;">Xeno, AWP.GG</span></p>
+            <div class="script-box" id="script-text">
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/flanchhh/AntiV2/refs/heads/main/Anti%20v2.lua"))();
+            </div>
+            <button class="btn-primary" onclick="copyScript()">📋 Copy Script</button>
         </div>
     </main>
 
     <script>
-        setTimeout(() => {
-            window.location.href = "loader.html";
-        }, 5000); // Redirect after 5 seconds
+        function showScript() {
+            document.getElementById("payment-confirmation").style.display = "none";
+            document.getElementById("script-download").classList.remove("hidden");
+        }
+
+        function copyScript() {
+            const scriptText = document.getElementById("script-text").innerText;
+            navigator.clipboard.writeText(scriptText).then(() => {
+                alert("✅ Script copied to clipboard!");
+            }).catch(err => {
+                console.error("Failed to copy script: ", err);
+            });
+        }
+
+        setTimeout(showScript, 5000); // Auto-show script after 5 seconds
     </script>
 </body>
 </html>
