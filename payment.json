@@ -1,0 +1,43 @@
+export default async function handler(req, res) {
+    if (req.method !== "POST") {
+        return res.status(405).json({ error: "Method Not Allowed" });
+    }
+
+    try {
+        const { orderID, email } = req.body;
+
+        // Simulate payment verification (replace with real logic)
+        const paymentVerified = orderID && email;
+
+        if (paymentVerified) {
+            await sendDiscordNotification(orderID, email);
+            return res.status(200).json({ success: true });
+        } else {
+            return res.status(400).json({ success: false, error: "Payment not verified" });
+        }
+    } catch (error) {
+        return res.status(500).json({ success: false, error: error.message });
+    }
+}
+
+// Function to send Discord Webhook Notification
+async function sendDiscordNotification(orderID, email) {
+    const webhookURL = "https://discord.com/api/webhooks/1344698260568412242/xbi20TnZYuH9e13HsnaetsQc2NZqoqYeLjWBECG9IdCgvqMNve1Ah3r0vfWc_bRgrQYb";
+
+    const embed = {
+        title: "💰 Payment Received!",
+        color: 65280, // Green
+        fields: [
+            { name: "✅ Status", value: "Payment Successful", inline: true },
+            { name: "🆔 Order ID", value: orderID },
+            { name: "📧 Customer Email", value: email || "Not Provided" },
+        ],
+        timestamp: new Date(),
+    };
+
+    await fetch(webhookURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ embeds: [embed] }),
+    });
+}
