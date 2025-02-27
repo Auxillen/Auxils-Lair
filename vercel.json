@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "description": "Vercel configuration for Auxil's Lair, including backend API and frontend static hosting.",
   "builds": [
     {
       "src": "backend/server.js",
