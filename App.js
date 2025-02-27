@@ -53,8 +53,8 @@ function Store() {
       const session = await response.json();
       const result = await stripe.redirectToCheckout({ sessionId: session.id });
 
-      if (result.error) {
-        console.error("Stripe redirect error:", result.error);
+      if (result?.error) {
+        console.error("Stripe redirect error:", result.error.message);
         alert("Error redirecting to checkout. Please try again.");
       }
 
@@ -80,4 +80,23 @@ function Store() {
           </p>
           <Button 
             onClick={handleCheckout} 
-            className="bg-gr
+            className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl focus:ring-2 focus:ring-green-300"
+          >
+            Buy Now
+          </Button>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/store" element={<Store />} />
+      </Routes>
+    </Router>
+  );
+}
