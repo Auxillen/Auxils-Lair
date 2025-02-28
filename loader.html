@@ -6,9 +6,31 @@
     <title>Auxil's Lair - Script Loader</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Background Styling */
+        /* Smooth fade-in effect */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Glowing pulse effect */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 10px rgba(180, 0, 255, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(180, 0, 255, 1); }
+            100% { box-shadow: 0 0 10px rgba(180, 0, 255, 0.5); }
+        }
+
+        /* Rotating neon border animation */
+        @keyframes borderGlow {
+            0% { border-color: #9b30ff; }
+            50% { border-color: #c084fc; }
+            100% { border-color: #9b30ff; }
+        }
+
+        /* Background Animation */
         body {
-            background: radial-gradient(circle, rgba(40, 0, 60, 1) 0%, rgba(10, 2, 24, 1) 100%);
+            background: linear-gradient(90deg, #180020, #200040, #180020);
+            background-size: 300% 300%;
+            animation: backgroundFlow 10s infinite alternate ease-in-out;
             color: #c084fc;
             font-family: 'Rajdhani', sans-serif;
             display: flex;
@@ -20,20 +42,11 @@
             animation: fadeIn 1.5s ease-in-out;
         }
 
-        /* Fade-in effect */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+        @keyframes backgroundFlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
 
-        /* Glow effect */
-        @keyframes pulse {
-            0% { box-shadow: 0 0 10px rgba(180, 0, 255, 0.6); }
-            50% { box-shadow: 0 0 20px rgba(180, 0, 255, 1); }
-            100% { box-shadow: 0 0 10px rgba(180, 0, 255, 0.6); }
-        }
-
-        /* Main Content Box */
         .content-box {
             background: rgba(80, 10, 120, 0.95);
             padding: 30px;
@@ -42,14 +55,10 @@
             text-align: center;
             width: 80%;
             max-width: 600px;
-            border: 2px solid #d484ff;
-            animation: fadeIn 1s ease-in-out;
+            border: 3px solid;
+            animation: fadeIn 1s ease-in-out, borderGlow 3s infinite alternate;
         }
 
-        /* Hidden elements for smooth transitions */
-        .hidden { display: none; }
-
-        /* Futuristic Button */
         .btn-primary {
             background: linear-gradient(90deg, #9b30ff, #c084fc);
             transition: all 0.3s ease-in-out;
@@ -73,27 +82,10 @@
             box-shadow: 0 0 35px rgba(200, 0, 255, 1);
         }
 
-        /* Script Box (Code Display) */
-        .script-box {
-            background: rgba(50, 0, 90, 0.8);
-            padding: 15px;
-            border-radius: 8px;
-            font-family: monospace;
-            text-align: left;
-            overflow-x: auto;
-            max-width: 600px;
-            white-space: nowrap;
-            color: #d484ff;
-            border: 2px solid #9d4edd;
-            margin-top: 10px;
-            animation: fadeIn 1.2s ease-in-out;
-        }
-
-        /* Animated Loader */
         .loading-animation {
             display: inline-block;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border: 5px solid rgba(255, 255, 255, 0.3);
             border-top-color: #c084fc;
             border-radius: 50%;
@@ -109,30 +101,21 @@
 </head>
 <body>
     <main>
-        <!-- Payment Verification -->
         <div class="content-box" id="verifying-payment">
             <h2 class="text-4xl font-bold text-purple-300">🔄 Verifying Payment...</h2>
             <p id="status" class="text-lg text-purple-400 mt-4">Please wait while we confirm your payment.</p>
             <div class="loading-animation"></div>
         </div>
 
-        <!-- Payment Failed -->
         <div class="content-box hidden" id="payment-failed">
             <h2 class="text-5xl font-bold text-red-400">⚠️ Payment Failed</h2>
             <p class="text-lg text-red-300 mt-4">It looks like your payment did not go through.</p>
-            <p class="text-md text-red-300 mt-2">Try a different payment option if the first one did not work.</p>
             <a href="https://auxils-lair.vercel.app/payment.html" class="btn-primary">🔄 Try Again</a>
         </div>
 
-        <!-- Payment Successful - Script Download -->
         <div class="content-box hidden" id="script-download">
             <h2 class="text-4xl font-bold text-purple-300">✅ Payment Successful</h2>
             <p class="text-lg text-green-400 mt-4">Thank you for your purchase!</p>
-            <p class="text-md text-green-300 mt-2">You can now access your script below.</p>
-            <p class="text-md text-green-300 mt-2">Works with <strong>ALL executors</strong>, e.g. <span style="color: #d484ff;">Xeno, AWP.GG</span></p>
-            <div class="script-box" id="script-text">
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/flanchhh/AntiV2/refs/heads/main/Anti%20v2.lua"))();
-            </div>
             <button class="btn-primary" onclick="copyScript()">📋 Copy Script</button>
         </div>
     </main>
@@ -149,15 +132,11 @@
         }
 
         function copyScript() {
-            const scriptText = document.getElementById("script-text").innerText;
-            navigator.clipboard.writeText(scriptText).then(() => {
-                alert("✅ Script copied to clipboard!");
-            }).catch(err => {
-                console.error("Failed to copy script: ", err);
-            });
+            navigator.clipboard.writeText("loadstring(game:HttpGet('https://example.com/script.lua'))();")
+                .then(() => alert("✅ Script copied to clipboard!"))
+                .catch(err => console.error("Failed to copy script: ", err));
         }
 
-        // Get orderID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const orderID = urlParams.get("orderID");
 
@@ -167,16 +146,8 @@
             setTimeout(() => {
                 fetch(`https://auxils-lair.vercel.app/check-payment?orderID=${orderID}`)
                     .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            showScript();
-                        } else {
-                            showPaymentFailed();
-                        }
-                    })
-                    .catch(() => {
-                        showPaymentFailed();
-                    });
+                    .then(data => data.success ? showScript() : showPaymentFailed())
+                    .catch(() => showPaymentFailed());
             }, 3000);
         }
     </script>
