@@ -6,8 +6,9 @@
     <title>Auxil's Lair - Script Loader</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Background Styling */
         body {
-            background-color: #0a0218;
+            background: radial-gradient(circle, rgba(40, 0, 60, 1) 0%, rgba(10, 2, 24, 1) 100%);
             color: #c084fc;
             font-family: 'Rajdhani', sans-serif;
             display: flex;
@@ -16,34 +17,46 @@
             height: 100vh;
             text-align: center;
             flex-direction: column;
+            animation: fadeIn 1.5s ease-in-out;
         }
+
+        /* Fade-in effect */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
         }
+
+        /* Glow effect */
         @keyframes pulse {
-            0% { opacity: 0.5; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.05); }
-            100% { opacity: 0.5; transform: scale(1); }
+            0% { box-shadow: 0 0 10px rgba(180, 0, 255, 0.6); }
+            50% { box-shadow: 0 0 20px rgba(180, 0, 255, 1); }
+            100% { box-shadow: 0 0 10px rgba(180, 0, 255, 0.6); }
         }
+
+        /* Main Content Box */
         .content-box {
-            background: rgba(60, 10, 90, 0.9);
+            background: rgba(80, 10, 120, 0.95);
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 0 30px rgba(128, 0, 255, 0.9);
+            box-shadow: 0 0 40px rgba(180, 0, 255, 0.9);
             text-align: center;
             width: 80%;
             max-width: 600px;
-            animation: fadeIn 1.5s ease-in-out;
+            border: 2px solid #d484ff;
+            animation: fadeIn 1s ease-in-out;
         }
+
+        /* Hidden elements for smooth transitions */
         .hidden { display: none; }
+
+        /* Futuristic Button */
         .btn-primary {
-            background: linear-gradient(90deg, #00ff00, #4dff4d);
+            background: linear-gradient(90deg, #9b30ff, #c084fc);
             transition: all 0.3s ease-in-out;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
-            padding: 12px 24px;
+            box-shadow: 0 0 20px rgba(150, 0, 255, 0.8);
+            padding: 14px 26px;
             border-radius: 12px;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
             display: block;
             margin: 20px auto;
@@ -52,13 +65,17 @@
             color: white;
             text-decoration: none;
             cursor: pointer;
+            animation: pulse 2s infinite;
         }
+
         .btn-primary:hover {
-            transform: scale(1.07);
-            box-shadow: 0 0 25px rgba(0, 255, 0, 1);
+            transform: scale(1.1);
+            box-shadow: 0 0 35px rgba(200, 0, 255, 1);
         }
+
+        /* Script Box (Code Display) */
         .script-box {
-            background: #1a012a;
+            background: rgba(50, 0, 90, 0.8);
             padding: 15px;
             border-radius: 8px;
             font-family: monospace;
@@ -66,21 +83,24 @@
             overflow-x: auto;
             max-width: 600px;
             white-space: nowrap;
-            color: #00ff00;
-            border: 1px solid #9d4edd;
+            color: #d484ff;
+            border: 2px solid #9d4edd;
             margin-top: 10px;
-            animation: fadeIn 1.5s ease-in-out;
+            animation: fadeIn 1.2s ease-in-out;
         }
+
+        /* Animated Loader */
         .loading-animation {
             display: inline-block;
-            width: 30px;
-            height: 30px;
-            border: 4px solid rgba(255, 255, 255, 0.3);
+            width: 40px;
+            height: 40px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
             border-top-color: #c084fc;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-top: 10px;
+            margin-top: 15px;
         }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -107,8 +127,9 @@
         <!-- Payment Successful - Script Download -->
         <div class="content-box hidden" id="script-download">
             <h2 class="text-4xl font-bold text-purple-300">✅ Payment Successful</h2>
-            <p class="text-lg text-purple-400 mt-4">Your payment has been confirmed. You can now access your script.</p>
-            <p class="text-md text-green-300 mt-2">Works with <strong>ALL executors</strong>, e.g. <span style="color: #00ff00;">Xeno, AWP.GG</span></p>
+            <p class="text-lg text-green-400 mt-4">Thank you for your purchase!</p>
+            <p class="text-md text-green-300 mt-2">You can now access your script below.</p>
+            <p class="text-md text-green-300 mt-2">Works with <strong>ALL executors</strong>, e.g. <span style="color: #d484ff;">Xeno, AWP.GG</span></p>
             <div class="script-box" id="script-text">
                 loadstring(game:HttpGet("https://raw.githubusercontent.com/flanchhh/AntiV2/refs/heads/main/Anti%20v2.lua"))();
             </div>
